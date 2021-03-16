@@ -31,9 +31,9 @@ public class ProxyServerContainer implements Container, ProxyConfig.ConfigChange
     private static final Logger logger = LoggerFactory.getLogger(ProxyServerContainer.class);
 
     /**
-     * 最大的 传输数据 2M
+     * 最大的 传输数据 3M
      */
-    private static final int MAX_FRAME_LENGTH = 2 * 1024 * 1024;
+    private static final int MAX_FRAME_LENGTH = 3 * 1024 * 1024;
 
     private static final int LENGTH_FIELD_OFFSET = 0;
 

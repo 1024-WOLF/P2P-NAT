@@ -184,7 +184,14 @@ public class ProxyClientContainer implements Container, ChannelStatusListener {
      */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        reconnectWait();
-        connectProxyServer();
+        // 递归重连代理服务器
+        if (retry.getAndAdd(1) < config.getIntValue("client.retryMaxCount")) {
+            logger.warn("connect proxy server failed {} retry，wait {}ms",retry.get(), sleepTimeMill);
+            // 连接失败，等待重连
+            reconnectWait();
+            connectProxyServer();
+        }else {
+            System.exit(-1);
+        }
     }
 }

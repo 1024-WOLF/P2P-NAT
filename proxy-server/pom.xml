@@ -34,18 +34,28 @@
   <build>
     <finalName>proxy-server-${project.version}</finalName>
     <plugins>
+      <!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>2.4</version>
         <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>com.github.tangmonkmeat.ProxyServerBootstrap</mainClass>
+            </manifest>
+          </archive>
           <excludes>
             <exclude>*.properties</exclude>
             <exclude>*.sh</exclude>
             <exclude>*.bat</exclude>
+            <exclude>*.json</exclude>
           </excludes>
         </configuration>
       </plugin>
+      <!-- 拷贝依赖的jar包到lib目录 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -102,7 +112,7 @@
               <outputDirectory>../build/proxy-server-${project.version}/pages</outputDirectory>
               <resources>
                 <resource>
-                  <directory>src/main/resources/pages</directory>
+                  <directory>../pages</directory>
                 </resource>
               </resources>
             </configuration>

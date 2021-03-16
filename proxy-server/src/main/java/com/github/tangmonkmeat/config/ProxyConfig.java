@@ -28,7 +28,7 @@ public class ProxyConfig implements Serializable {
 
     // 初始化配置文件路径
     static {
-        String configDir = System.getProperty("user.home") + "/" + ".proxy-server/";
+        String configDir = System.getProperty("user.home") + "/";
         File file = new File(configDir);
         if (!file.exists()){
             file.mkdir();
