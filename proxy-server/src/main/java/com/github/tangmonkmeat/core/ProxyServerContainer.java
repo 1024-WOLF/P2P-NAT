@@ -76,12 +76,11 @@ public class ProxyServerContainer implements Container, ProxyConfig.ConfigChange
             throw new RuntimeException(ex);
         }
 
-
         startUserPort();
     }
 
     /**
-     * 开启所有映射的端口
+     * 开启所有映射的端口，用于处理用户的请求
      *
      */
     private void startUserPort() {

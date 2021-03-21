@@ -18,5 +18,7 @@ public class ProxyServerBootstrap {
     public static void main(String[] args) {
         ContainerHelper.start(Arrays.asList(new ProxyServerContainer(), new WebConfigContainer()));
         //System.out.println(ProxyServerBootstrap .class.getResource("/pages").toURI().getPath());
+
+        //System.out.println(Runtime.getRuntime().availableProcessors());
     }
 }

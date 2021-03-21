@@ -54,6 +54,8 @@ public class ClientChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ProxyMessage msg) throws Exception {
+        //ctx.writeAndFlush()
+
         logger.debug("received proxy message, type is {}", msg.getType());
         // 根据消息类型，分别处理
         switch (msg.getType()){

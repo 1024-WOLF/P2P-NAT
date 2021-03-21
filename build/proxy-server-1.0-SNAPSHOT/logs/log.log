@@ -1,0 +1,40 @@
+2021-03-20 16:02:48  [ main:0 ] - [ INFO ]  config init serverHost 0.0.0.0, serverPort 4901, configServerHost 0.0.0.0, configServerPort 8091, configServerUserName admin, configServerPassword admin
+2021-03-20 16:02:48  [ main:34 ] - [ INFO ]  starting container [com.github.tangmonkmeat.core.ProxyServerContainer]
+2021-03-20 16:02:48  [ main:89 ] - [ INFO ]  proxy server start on port 4901
+2021-03-20 16:02:48  [ main:90 ] - [ INFO ]  bind user port 9008
+2021-03-20 16:02:48  [ main:92 ] - [ INFO ]  bind user port 9009
+2021-03-20 16:02:48  [ main:92 ] - [ INFO ]  container [com.github.tangmonkmeat.core.ProxyServerContainer] started
+2021-03-20 16:02:48  [ main:92 ] - [ INFO ]  starting container [com.github.tangmonkmeat.web.WebConfigContainer]
+2021-03-20 16:02:48  [ main:93 ] - [ INFO ]  http server start on port 8091
+2021-03-20 16:02:48  [ main:94 ] - [ INFO ]  add requestMiddleware com.github.tangmonkmeat.web.RouteConfig$1@68bbe345
+2021-03-20 16:02:48  [ main:95 ] - [ INFO ]  add route /config/detail
+2021-03-20 16:02:48  [ main:95 ] - [ INFO ]  add route /config/update
+2021-03-20 16:02:48  [ main:95 ] - [ INFO ]  add route /login
+2021-03-20 16:02:48  [ main:96 ] - [ INFO ]  add route /logout
+2021-03-20 16:02:48  [ main:96 ] - [ INFO ]  add route /metrics/get
+2021-03-20 16:02:48  [ main:96 ] - [ INFO ]  add route /metrics/getandreset
+2021-03-20 16:02:48  [ main:96 ] - [ INFO ]  container [com.github.tangmonkmeat.web.WebConfigContainer] started
+2021-03-20 17:52:35  [ main:0 ] - [ INFO ]  config init serverHost 0.0.0.0, serverPort 4901, configServerHost 0.0.0.0, configServerPort 8091, configServerUserName admin, configServerPassword admin
+2021-03-20 17:52:35  [ main:34 ] - [ INFO ]  starting container [com.github.tangmonkmeat.core.ProxyServerContainer]
+2021-03-20 17:52:35  [ main:90 ] - [ INFO ]  proxy server start on port 4901
+2021-03-20 17:52:35  [ main:91 ] - [ INFO ]  bind user port 9008
+2021-03-20 17:52:35  [ main:94 ] - [ INFO ]  bind user port 9009
+2021-03-20 17:52:35  [ main:94 ] - [ INFO ]  container [com.github.tangmonkmeat.core.ProxyServerContainer] started
+2021-03-20 17:52:35  [ main:94 ] - [ INFO ]  starting container [com.github.tangmonkmeat.web.WebConfigContainer]
+2021-03-20 17:52:35  [ main:95 ] - [ INFO ]  http server start on port 8091
+2021-03-20 17:52:35  [ main:96 ] - [ INFO ]  add requestMiddleware com.github.tangmonkmeat.web.RouteConfig$1@68bbe345
+2021-03-20 17:52:35  [ main:96 ] - [ INFO ]  add route /config/detail
+2021-03-20 17:52:35  [ main:97 ] - [ INFO ]  add route /config/update
+2021-03-20 17:52:35  [ main:97 ] - [ INFO ]  add route /login
+2021-03-20 17:52:35  [ main:97 ] - [ INFO ]  add route /logout
+2021-03-20 17:52:35  [ main:97 ] - [ INFO ]  add route /metrics/get
+2021-03-20 17:52:35  [ main:98 ] - [ INFO ]  add route /metrics/getandreset
+2021-03-20 17:52:35  [ main:98 ] - [ INFO ]  container [com.github.tangmonkmeat.web.WebConfigContainer] started
+2021-03-20 17:52:55  [ nioEventLoopGroup-5-1:20462 ] - [ INFO ]  handle request for api /login
+2021-03-20 17:52:59  [ nioEventLoopGroup-5-1:23942 ] - [ INFO ]  handle request for api /login
+2021-03-20 17:52:59  [ nioEventLoopGroup-5-1:24113 ] - [ INFO ]  handle request for api /config/detail
+2021-03-20 17:52:59  [ nioEventLoopGroup-5-1:24131 ] - [ INFO ]  handle request for api /config/detail
+2021-03-20 17:53:12  [ nioEventLoopGroup-5-1:36873 ] - [ INFO ]  handle request for api /config/update
+2021-03-20 17:53:33  [ nioEventLoopGroup-5-1:57580 ] - [ INFO ]  handle request for api /config/update
+2021-03-20 17:53:33  [ nioEventLoopGroup-5-1:57588 ] - [ INFO ]  bind user port 8081
+2021-03-20 17:53:36  [ nioEventLoopGroup-5-1:61553 ] - [ INFO ]  handle request for api /logout

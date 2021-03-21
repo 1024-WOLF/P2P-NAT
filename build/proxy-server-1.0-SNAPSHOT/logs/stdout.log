@@ -1,0 +1,48 @@
+[INFO ] 2021-03-20 17:52:35,426 method:com.github.tangmonkmeat.config.ProxyConfig.<init>(ProxyConfig.java:98)
+config init serverHost 0.0.0.0, serverPort 4901, configServerHost 0.0.0.0, configServerPort 8091, configServerUserName admin, configServerPassword admin
+[INFO ] 2021-03-20 17:52:35,460 method:com.github.tangmonkmeat.common.Container.ContainerHelper.startContainers(ContainerHelper.java:77)
+starting container [com.github.tangmonkmeat.core.ProxyServerContainer]
+[INFO ] 2021-03-20 17:52:35,516 method:com.github.tangmonkmeat.core.ProxyServerContainer.start(ProxyServerContainer.java:74)
+proxy server start on port 4901
+[INFO ] 2021-03-20 17:52:35,517 method:com.github.tangmonkmeat.core.ProxyServerContainer.startUserPort(ProxyServerContainer.java:100)
+bind user port 9008
+[INFO ] 2021-03-20 17:52:35,520 method:com.github.tangmonkmeat.core.ProxyServerContainer.startUserPort(ProxyServerContainer.java:100)
+bind user port 9009
+[INFO ] 2021-03-20 17:52:35,520 method:com.github.tangmonkmeat.common.Container.ContainerHelper.startContainers(ContainerHelper.java:79)
+container [com.github.tangmonkmeat.core.ProxyServerContainer] started
+[INFO ] 2021-03-20 17:52:35,520 method:com.github.tangmonkmeat.common.Container.ContainerHelper.startContainers(ContainerHelper.java:77)
+starting container [com.github.tangmonkmeat.web.WebConfigContainer]
+[INFO ] 2021-03-20 17:52:35,521 method:com.github.tangmonkmeat.web.WebConfigContainer.start(WebConfigContainer.java:61)
+http server start on port 8091
+[INFO ] 2021-03-20 17:52:35,522 method:com.github.tangmonkmeat.web.ApiRoute.addInterceptor(ApiRoute.java:63)
+add requestMiddleware com.github.tangmonkmeat.web.RouteConfig$1@68bbe345
+[INFO ] 2021-03-20 17:52:35,522 method:com.github.tangmonkmeat.web.ApiRoute.addRoute(ApiRoute.java:48)
+add route /config/detail
+[INFO ] 2021-03-20 17:52:35,523 method:com.github.tangmonkmeat.web.ApiRoute.addRoute(ApiRoute.java:48)
+add route /config/update
+[INFO ] 2021-03-20 17:52:35,523 method:com.github.tangmonkmeat.web.ApiRoute.addRoute(ApiRoute.java:48)
+add route /login
+[INFO ] 2021-03-20 17:52:35,523 method:com.github.tangmonkmeat.web.ApiRoute.addRoute(ApiRoute.java:48)
+add route /logout
+[INFO ] 2021-03-20 17:52:35,523 method:com.github.tangmonkmeat.web.ApiRoute.addRoute(ApiRoute.java:48)
+add route /metrics/get
+[INFO ] 2021-03-20 17:52:35,524 method:com.github.tangmonkmeat.web.ApiRoute.addRoute(ApiRoute.java:48)
+add route /metrics/getandreset
+[INFO ] 2021-03-20 17:52:35,524 method:com.github.tangmonkmeat.common.Container.ContainerHelper.startContainers(ContainerHelper.java:79)
+container [com.github.tangmonkmeat.web.WebConfigContainer] started
+[INFO ] 2021-03-20 17:52:55,888 method:com.github.tangmonkmeat.web.RouteConfig$1.preHandler(RouteConfig.java:55)
+handle request for api /login
+[INFO ] 2021-03-20 17:52:59,368 method:com.github.tangmonkmeat.web.RouteConfig$1.preHandler(RouteConfig.java:55)
+handle request for api /login
+[INFO ] 2021-03-20 17:52:59,539 method:com.github.tangmonkmeat.web.RouteConfig$1.preHandler(RouteConfig.java:55)
+handle request for api /config/detail
+[INFO ] 2021-03-20 17:52:59,557 method:com.github.tangmonkmeat.web.RouteConfig$1.preHandler(RouteConfig.java:55)
+handle request for api /config/detail
+[INFO ] 2021-03-20 17:53:12,299 method:com.github.tangmonkmeat.web.RouteConfig$1.preHandler(RouteConfig.java:55)
+handle request for api /config/update
+[INFO ] 2021-03-20 17:53:33,006 method:com.github.tangmonkmeat.web.RouteConfig$1.preHandler(RouteConfig.java:55)
+handle request for api /config/update
+[INFO ] 2021-03-20 17:53:33,014 method:com.github.tangmonkmeat.core.ProxyServerContainer.startUserPort(ProxyServerContainer.java:100)
+bind user port 8081
+[INFO ] 2021-03-20 17:53:36,979 method:com.github.tangmonkmeat.web.RouteConfig$1.preHandler(RouteConfig.java:55)
+handle request for api /logout

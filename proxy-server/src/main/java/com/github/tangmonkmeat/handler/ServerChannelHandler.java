@@ -10,6 +10,7 @@ import io.netty.channel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -124,7 +125,7 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
         String[] tokens = uri.split("@");
         // 非法的uri，关闭连接
         if (tokens.length != 2){
-            logger.warn("connect message: error uri");
+            logger.warn("connect message: error uri={}", Arrays.toString(tokens));
             ctx.close();
             return;
         }
@@ -132,7 +133,7 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
         Channel cmdChannel = ProxyChannelManager.getCmdChannel(tokens[1]);
         // clientKey 错误，关闭连接
         if (cmdChannel == null) {
-            logger.warn("connect message:error clientKey {}", tokens[1]);
+            logger.warn("connect message: error clientKey={}", tokens[1]);
             ctx.close();
             return;
         }
@@ -190,7 +191,8 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
         heartbeatMessage.setSerialNumber(heartbeatMessage.getSerialNumber());
         heartbeatMessage.setType(ProxyMessage.TYPE_HEARTBEAT);
         logger.debug("response heartbeat message {}", ctx.channel());
-        ctx.channel().writeAndFlush(heartbeatMessage);
+        ctx.writeAndFlush(heartbeatMessage);
+        //ctx.channel().writeAndFlush(heartbeatMessage);
     }
 
     /**

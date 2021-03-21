@@ -1,6 +1,5 @@
 package com.github.tangmonkmeat.web;
 
-import com.github.tangmonkmeat.ProxyServerBootstrap;
 import com.github.tangmonkmeat.common.util.JsonUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
@@ -26,15 +25,22 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
      * //private static final String DEFAULT_PREFIX =  System.getProperty("user.dir") + "/pages";
      * 静态资源路径
      */
-    private static String DEFAULT_PREFIX =  System.getProperty("user.dir") + "/pages";
+    private static final String DEFAULT_PREFIX;
 
-    //static {
-    //    try {
-    //        DEFAULT_PREFIX = ProxyServerBootstrap .class.getResource("/pages").toURI().getPath();
-    //    } catch (URISyntaxException e) {
-    //        e.printStackTrace();
-    //    }
-    //}
+
+    static {
+        String base_dir = System.getProperty("base.dir",System.getProperty("user.dir"));
+        DEFAULT_PREFIX = base_dir + "/pages";
+        //if(base_dir != null){
+        //    DEFAULT_PREFIX = base_dir + "/pages";
+        //}else{
+        //    try {
+        //        DEFAULT_PREFIX = HttpRequestHandler.class.getClassLoader().getResource("").getPath() + "pages";
+        //    } catch (Exception e) {
+        //        e.printStackTrace();
+        //    }
+        //}
+    }
 
     /**
      * 代理服务器的版本等信息；

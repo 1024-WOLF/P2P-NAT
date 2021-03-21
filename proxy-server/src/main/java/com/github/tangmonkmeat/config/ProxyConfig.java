@@ -24,16 +24,21 @@ public class ProxyConfig implements Serializable {
     /**
      * 代理客户端配置文件的路径，默认的配置文件在 用户目录的 .proxy-server/ 目录下，名称为 config.json
      */
-    public static final String CONFIG_FILE;
+    public static String CONFIG_FILE;
 
     // 初始化配置文件路径
     static {
-        String configDir = System.getProperty("user.home") + "/";
-        File file = new File(configDir);
-        if (!file.exists()){
-            file.mkdir();
+        try {
+            CONFIG_FILE = Config.class.getClassLoader().getResource("config.json").getPath();
+            //String configDir = System.getProperty("user.home") + "/";
+            File file = new File(CONFIG_FILE);
+            if (!file.exists()){
+                file.mkdir();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        CONFIG_FILE = configDir + "config.json";
+        //CONFIG_FILE = configDir + "config.json";
     }
 
     /**
