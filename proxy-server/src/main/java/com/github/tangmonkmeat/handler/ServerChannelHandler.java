@@ -2,6 +2,7 @@ package com.github.tangmonkmeat.handler;
 
 import com.github.tangmonkmeat.config.ProxyConfig;
 import com.github.tangmonkmeat.core.ProxyChannelManager;
+import com.github.tangmonkmeat.core.ProxyServerContainer;
 import com.github.tangmonkmeat.web.metrics.Constants;
 import com.github.tangmonkmeat.web.metrics.ProxyMessage;
 import io.netty.buffer.ByteBuf;
@@ -169,7 +170,9 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
             return;
         }
 
+        // 第一次建立连接 cmdChannel == null
         Channel cmdChannel0 = ProxyChannelManager.getCmdChannel(clientKey);
+        // 第二次试图在建立 cmdChannel
         // 授权失败，cmdChannel 已经存在
         if (cmdChannel0 != null){
             logger.warn("exist channel for key {}, {}", clientKey, cmdChannel0);
@@ -181,6 +184,15 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
         Channel cmdChannel = ctx.channel();
         // 授权成功，设置cmdChannel相关的映射关系，缓存cmdChannel
         ProxyChannelManager.addCmdChannel(ports, clientKey, cmdChannel);
+
+        try {
+            // 开启端口监听
+            ProxyServerContainer.startUserPort(clientKey);
+        } catch (Exception e){
+            logger.error("start user ports [{}] error, clientKey is [{}]",ports,clientKey);
+            ctx.close();
+            ProxyChannelManager.removeCmdChannel(cmdChannel);
+        }
     }
 
     /**
@@ -221,6 +233,7 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
             //userChannel.close();
         } else {
             // 如果代理客户端断开连接了，解除cmdChannel绑定的关系
+            // 同时，释放端口
             ProxyChannelManager.removeCmdChannel(ctx.channel());
         }
         super.channelInactive(ctx);

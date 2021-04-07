@@ -34,22 +34,22 @@ public class ProxyChannelManager {
      * key：userId
      * value：userChannel
      */
-    private static final AttributeKey<Map<String, Channel>> USER_CHANNELS = AttributeKey.newInstance("user_channels");
+    public static final AttributeKey<Map<String, Channel>> USER_CHANNELS = AttributeKey.newInstance("user_channels");
 
     /**
      * 真实端服务器ip和端口信息，ip:port
      */
-    private static final AttributeKey<String> REQUEST_LAN_INFO = AttributeKey.newInstance("request_lan_info");
+    public static final AttributeKey<String> REQUEST_LAN_INFO = AttributeKey.newInstance("request_lan_info");
 
     /**
-     * 代理服务器开放的端口列表
+     * cmdChannel 对应的端口列表
      */
-    private static final AttributeKey<List<Integer>> CHANNEL_PORT = AttributeKey.newInstance("channel_port");
+    public static final AttributeKey<List<Integer>> CHANNEL_PORT = AttributeKey.newInstance("channel_port");
 
     /**
      * 代理客户端的秘钥（clientKey）
      */
-    private static final AttributeKey<String> CHANNEL_CLIENT_KEY = AttributeKey.newInstance("channel_client_key");
+    public static final AttributeKey<String> CHANNEL_CLIENT_KEY = AttributeKey.newInstance("channel_client_key");
 
     /**
      * 每个代理服务器开放的端口，都映射一个 cmdChannel
@@ -58,6 +58,12 @@ public class ProxyChannelManager {
      * value：控制代理客户端和代理服务器的 channel
      */
     private static final Map<Integer, Channel> portCmdChannelMapping = new ConcurrentHashMap<>();
+
+    /**
+     * 每个代理服务器开放的端口，都映射一个 bindChannel
+     *
+     */
+    private static final Map<Integer, Channel> portBindChannelMapping = new ConcurrentHashMap<>();
 
     /**
      * 每个代理客户端的 唯一标示（clientKey），都映射一个 cmdChannel
@@ -125,6 +131,24 @@ public class ProxyChannelManager {
     }
 
     /**
+     * 获取 bindChannel
+     *
+     * @param port bindChannel 对应的 port
+     * @return bindChannel
+     */
+    public static Channel getBindChannel(Integer port){
+        return portBindChannelMapping.get(port);
+    }
+
+    public static void addBindChannel(Integer port,Channel bindChannel){
+        portBindChannelMapping.put(port,bindChannel);
+    }
+
+    public static Channel removeBindChannel(Integer port){
+        return portBindChannelMapping.remove(port);
+    }
+
+    /**
      * 删除用户连接与代理客户端连接关系
      *
      * @param cmdChannel 代理客户端连接
@@ -161,10 +185,9 @@ public class ProxyChannelManager {
             cmdChannels.put(clientKey, channel);
         }
 
-        // 移除 和cmdChannel 关联的所有端口
+        // 移除缓存的 cmdChannel
         List<Integer> ports = channel.attr(CHANNEL_PORT).get();
         for (int port : ports) {
-            // 移除缓存的 cmdChannel
             Channel cmdChannel = portCmdChannelMapping.remove(port);
             if (cmdChannel == null) {
                 continue;
@@ -176,6 +199,7 @@ public class ProxyChannelManager {
             }
         }
 
+        // close cmdChannel
         if (channel.isActive()) {
             logger.info("disconnect cmd channel {}", channel);
             channel.close();
@@ -188,6 +212,14 @@ public class ProxyChannelManager {
             if (userChannel.isActive()) {
                 userChannel.close();
                 logger.info("disconnect user channel {}", userChannel);
+            }
+        }
+
+        // 释放 cmdChannel 开放的所有端口
+        for (int port : ports) {
+            Channel bindChannel = removeBindChannel(port);
+            if (bindChannel != null){
+                bindChannel.close();
             }
         }
     }

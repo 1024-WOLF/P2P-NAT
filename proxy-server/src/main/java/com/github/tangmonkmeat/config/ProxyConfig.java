@@ -2,6 +2,7 @@ package com.github.tangmonkmeat.config;
 
 import com.github.tangmonkmeat.common.Config;
 import com.github.tangmonkmeat.common.util.JsonUtil;
+import com.github.tangmonkmeat.core.ProxyChannelManager;
 import com.google.gson.reflect.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -199,7 +200,7 @@ public class ProxyConfig implements Serializable {
         File file = new File(CONFIG_FILE);
         InputStream in = null;
         try {
-            // 如果json 为 null，且配置文件不存在
+            // 如果json 为 null，且配置文件存在
             if (proxyMappingConfigJson == null && file.exists()) {
                 in = new FileInputStream(file);
                 byte[] buf = new byte[1024];
@@ -228,7 +229,7 @@ public class ProxyConfig implements Serializable {
         List<Client> clients = JsonUtil.json2Object(proxyMappingConfigJson, new TypeToken<List<Client>>() {
         });
         if (clients == null) {
-            clients = new ArrayList<Client>();
+            clients = new ArrayList<>();
         }
 
         // clientKey : proxyServer_port列表
@@ -281,7 +282,7 @@ public class ProxyConfig implements Serializable {
         }
 
         // 配置更新通知
-        notifyConfigChangedListeners();
+        //notifyConfigChangedListeners();
     }
 
     /**
@@ -332,12 +333,13 @@ public class ProxyConfig implements Serializable {
     public void notifyConfigChangedListeners(){
         List<ConfigChangedListener> changedListeners = new ArrayList<ConfigChangedListener>(configChangedListeners);
         for (ConfigChangedListener changedListener : changedListeners) {
+            // 开启端口
             changedListener.onChanged();
         }
     }
 
     /**
-     * 配置更新回调
+     * 配置更新回调，开启新增的端口
      */
     public interface ConfigChangedListener {
         void onChanged();

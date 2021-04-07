@@ -1,7 +1,0 @@
-/home/zwl/idea/work-space/p2p-nat/proxy-client/src/main/java/com/github/tangmonkmeat/handler/ClientChannelHandler.java
-/home/zwl/idea/work-space/p2p-nat/proxy-client/src/main/java/com/github/tangmonkmeat/listener/ChannelStatusListener.java
-/home/zwl/idea/work-space/p2p-nat/proxy-client/src/main/java/com/github/tangmonkmeat/listener/ProxyChannelBorrowListener.java
-/home/zwl/idea/work-space/p2p-nat/proxy-client/src/main/java/com/github/tangmonkmeat/core/ProxyClientContainer.java
-/home/zwl/idea/work-space/p2p-nat/proxy-client/src/main/java/com/github/tangmonkmeat/core/ClientChannelManager.java
-/home/zwl/idea/work-space/p2p-nat/proxy-client/src/main/java/com/github/tangmonkmeat/ProxyClientBootstrap.java
-/home/zwl/idea/work-space/p2p-nat/proxy-client/src/main/java/com/github/tangmonkmeat/handler/RealServerChannelHandler.java

@@ -34,6 +34,11 @@ public class ResponseInfo {
      */
     public static final int CODE_SYSTEM_ERROR = 50000;
 
+    /**
+     * 验证码错误
+     */
+    public static final int IDENTIFYING_CODE_ERROR = 44400;
+
     private int code;
 
     private String message;

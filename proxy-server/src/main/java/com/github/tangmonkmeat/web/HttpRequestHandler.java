@@ -1,5 +1,6 @@
 package com.github.tangmonkmeat.web;
 
+import com.anji.captcha.model.common.ResponseModel;
 import com.github.tangmonkmeat.common.util.JsonUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
@@ -61,11 +62,20 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
         }
 
         // POST 请求
-        ResponseInfo responseInfo = ApiRoute.execute(request);
-        // 错误码规则：除100取整为http状态码
+        Object responseInfo = ApiRoute.execute(request);
         assert responseInfo != null;
-        outputContent(ctx, request, responseInfo.getCode() / 100, JsonUtil.object2Json(responseInfo),
-                "Application/json;charset=utf-8");
+
+        if (responseInfo instanceof ResponseInfo){
+            ResponseInfo responseInfo1 = (ResponseInfo) responseInfo;
+            // 错误码规则：除100取整为http状态码
+            outputContent(ctx, request, responseInfo1.getCode() / 100, JsonUtil.object2Json(responseInfo),
+                    "Application/json;charset=utf-8");
+        }else if (responseInfo instanceof ResponseModel){
+            ResponseModel responseModel = (ResponseModel) responseInfo;
+            // 错误码规则：除100取整为http状态码
+            outputContent(ctx, request, Integer.parseInt(responseModel.getRepCode()), JsonUtil.object2Json(responseInfo),
+                    "Application/json;charset=utf-8");
+        }
     }
 
     /**

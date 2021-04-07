@@ -36,12 +36,10 @@ MAIN_CLASS=com.github.tangmonkmeat.ProxyServerBootstrap
 # 启动项目（后台运行）
 # 指定运行的环境变量和 classpath
 # 标准输出重定向到文件，错误重定向到标准输出
-echo -e "starting the proxy server ...\c"
+echo -e "starting the proxy server ...\n\c"
 nohup java -Dbase.dir=${BASE_DIR} -classpath ${CONF_DIR}:${LIB_JARS} ${MAIN_CLASS} >${STDOUT_FILE} 2>&1 &
 sleep 1
 # 打印进程ID
 PID=$(ps -ef | grep java | grep ${MAIN_CLASS} | awk '{print $2}')
 echo "started"
 echo "PID=${PID}"
-
-

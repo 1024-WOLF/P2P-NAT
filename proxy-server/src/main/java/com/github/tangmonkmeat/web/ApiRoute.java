@@ -70,16 +70,16 @@ public class ApiRoute {
      * @param request {@link FullHttpRequest}
      * @return 请求响应 {@link ResponseInfo}
      */
-    public static ResponseInfo execute(FullHttpRequest request) {
+    public static Object execute(FullHttpRequest request) {
         try {
             // 请求预处理
             for (RequestHandlerInterceptor interceptor : middlewares) {
-                interceptor.preHandler(request);
+                //interceptor.preHandler(request);
             }
 
             URI uri = new URI(request.uri());
             RequestHandler handler = routes.get(uri.getPath());
-            ResponseInfo responseInfo;
+            Object responseInfo;
             if (handler != null) {
                 // 处理请求
                 responseInfo = handler.doService(request);

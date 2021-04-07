@@ -1,5 +1,9 @@
 package com.github.tangmonkmeat.web;
 
+import com.anji.captcha.model.common.ResponseModel;
+import com.anji.captcha.model.vo.CaptchaVO;
+import com.anji.captcha.service.CaptchaService;
+import com.anji.captcha.service.impl.BlockPuzzleCaptchaServiceImpl;
 import com.github.tangmonkmeat.common.util.JsonUtil;
 import com.github.tangmonkmeat.config.ProxyConfig;
 import com.github.tangmonkmeat.core.ProxyChannelManager;
@@ -12,9 +16,11 @@ import io.netty.handler.codec.http.HttpHeaderNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.UUID;
 
 /**
@@ -37,6 +43,21 @@ public class RouteConfig {
     private static final Logger logger = LoggerFactory.getLogger(RouteConfig.class);
 
     /**
+     * 滑动验证码
+     */
+    private static final CaptchaService captchaService = new BlockPuzzleCaptchaServiceImpl();
+
+    static {
+        Properties properties = new Properties();
+        try {
+            properties.load(RouteConfig.class.getClassLoader().getResourceAsStream("captcha.properties"));
+        } catch (IOException e) {
+            logger.error("load captcha.properties error，which will use default params");
+        }
+        captchaService.init(properties);
+    }
+
+    /**
      * 管理员不能同时在多个地方登录
      */
     private static String token;
@@ -54,8 +75,8 @@ public class RouteConfig {
             public void preHandler(FullHttpRequest request) {
                 logger.info("handle request for api {}", request.uri());
 
-                // 登录请求，直接放行
-                if ("/login".equals(request.uri())){
+                // 滑动验证请求，直接放行
+                if ("/captcha/get".equals(request.uri()) || "/captcha/check".equals(request.uri()) || "/login".equals(request.uri())){
                     return;
                 }
 
@@ -113,7 +134,7 @@ public class RouteConfig {
         ApiRoute.addRoute("/config/update", new RequestHandler() {
 
             /**
-             * 根据POST 的代理客户端的配置信息，更新代理客户端配置文件
+             * 根据POST 的代理客户端的配置信息，更新代理客户端配置文件，更新服务器缓存的客户端配置信息
              *
              * 1 如果post 的配置信息映射有误，响应 CODE_INVILID_PARAMS
              * 2 如果更新配置信息出错，响应 CODE_INVILID_PARAMS
@@ -159,13 +180,20 @@ public class RouteConfig {
                 if (loginParams == null) {
                     return ResponseInfo.build(ResponseInfo.CODE_INVILID_PARAMS, "Error login info");
                 }
+                // 验证码校验
+                String verification = loginParams.get("captchaVerification");
+                CaptchaVO captchaVO = new CaptchaVO();
+                captchaVO.setCaptchaVerification(verification);
+                ResponseModel model = captchaService.verification(captchaVO);
+                if (!model.isSuccess()){
+                    return ResponseInfo.build(ResponseInfo.IDENTIFYING_CODE_ERROR,"Error identifying code");
+                }
 
                 String username = loginParams.get("username");
                 String password = loginParams.get("password");
                 if (username == null || password == null) {
                     return ResponseInfo.build(ResponseInfo.CODE_INVILID_PARAMS, "Error username or password");
                 }
-
                 // 验证username和password
                 // 刷新token
                 if (username.equals(ProxyConfig.instance.getConfigServerUserName()) && password.equals(ProxyConfig.instance.getConfigServerPassword())) {
@@ -177,6 +205,32 @@ public class RouteConfig {
             }
         });
 
+        // 验证码接口
+        ApiRoute.addRoute("/captcha/get", new RequestHandler() {
+            @Override
+            public ResponseModel doService(FullHttpRequest request) {
+                byte[] buf = new byte[request.content().readableBytes()];
+                request.content().readBytes(buf);
+                String json = new String(buf);
+                CaptchaVO captchaVO = JsonUtil.json2Object(json, new TypeToken<CaptchaVO>() {
+                });
+                return captchaService.get(captchaVO);
+            }
+        });
+
+        // 滑动验证码校验接口
+        ApiRoute.addRoute("/captcha/check", new RequestHandler() {
+            @Override
+            public Object doService(FullHttpRequest request) {
+                byte[] buf = new byte[request.content().readableBytes()];
+                request.content().readBytes(buf);
+                String json = new String(buf);
+                CaptchaVO captchaVO = JsonUtil.json2Object(json, new TypeToken<CaptchaVO>() {
+                });
+                return captchaService.check(captchaVO);
+            }
+        });
+
         // 退出登录
         ApiRoute.addRoute("/logout", new RequestHandler() {
             @Override
@@ -185,6 +239,8 @@ public class RouteConfig {
                 return ResponseInfo.build(ResponseInfo.CODE_OK, "success");
             }
         });
+
+
 
         // 流量统计
         ApiRoute.addRoute("/metrics/get", new RequestHandler() {

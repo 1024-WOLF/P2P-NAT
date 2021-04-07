@@ -17,5 +17,5 @@ public interface RequestHandler {
      * @param request {@link FullHttpRequest}
      * @return {@link ResponseInfo}
      */
-    ResponseInfo doService(FullHttpRequest request);
+    Object doService(FullHttpRequest request);
 }
