@@ -54,6 +54,7 @@ public class RouteConfig {
         } catch (IOException e) {
             logger.error("load captcha.properties error，which will use default params");
         }
+
         captchaService.init(properties);
     }
 
