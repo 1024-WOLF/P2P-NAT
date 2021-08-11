@@ -2,14 +2,17 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>p2p-nat</artifactId>
         <groupId>com.github.tangmonkmeat</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
+
     <packaging>jar</packaging>
     <artifactId>proxy-common</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <name>proxy-common</name>
     <url>http://www.example.com</url>

@@ -77,6 +77,7 @@ public class ProxyClientContainer implements Container, ChannelStatusListener {
 
     /**
      * 重连代理服务器 间隔；
+     *
      * 每次重连失败后，延长等待时间 2倍；如果等待时间 > 60s,就重置为 1s
      */
     private long sleepTimeMill = 1000;

@@ -115,6 +115,10 @@ public class UserChannelHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     /**
      * 平衡用户channel和代理客户端channel的读写速度，防止OOM
+     *
+     * 比如：如果对方的读取速度太慢，那么我们的 OutBound缓冲区很快就会堆积大量的数据，造成OOM
+     *
+     * @see <a href="https://www.cnblogs.com/stateis0/p/9062155.html"/>
      */
     @Override
     public void channelWritabilityChanged(ChannelHandlerContext ctx) throws Exception {

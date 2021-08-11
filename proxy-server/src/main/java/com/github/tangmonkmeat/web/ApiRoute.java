@@ -74,7 +74,7 @@ public class ApiRoute {
         try {
             // 请求预处理
             for (RequestHandlerInterceptor interceptor : middlewares) {
-                //interceptor.preHandler(request);
+                interceptor.preHandler(request);
             }
 
             URI uri = new URI(request.uri());

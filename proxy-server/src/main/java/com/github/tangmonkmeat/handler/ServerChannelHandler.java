@@ -32,6 +32,7 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ProxyMessage msg) throws Exception {
         logger.debug("ProxyMessage received {}", msg.getType());
+        Channel channel = ctx.channel();
         switch (msg.getType()){
             case ProxyMessage.TYPE_HEARTBEAT:{
                 handleHeartbeatMessage(ctx,msg);
@@ -170,7 +171,7 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
             return;
         }
 
-        // 第一次建立连接 cmdChannel == null
+        // 第一次建立连接 cmdChannel 应该为  null
         Channel cmdChannel0 = ProxyChannelManager.getCmdChannel(clientKey);
         // 第二次试图在建立 cmdChannel
         // 授权失败，cmdChannel 已经存在
@@ -186,7 +187,7 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<ProxyMessa
         ProxyChannelManager.addCmdChannel(ports, clientKey, cmdChannel);
 
         try {
-            // 开启端口监听
+            // 开启用户端口监听
             ProxyServerContainer.startUserPort(clientKey);
         } catch (Exception e){
             logger.error("start user ports [{}] error, clientKey is [{}]",ports,clientKey);

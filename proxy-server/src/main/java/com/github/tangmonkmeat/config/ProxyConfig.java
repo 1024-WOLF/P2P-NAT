@@ -79,7 +79,7 @@ public class ProxyConfig implements Serializable {
     public static volatile ProxyConfig instance = new ProxyConfig();
 
     /** 代理服务器为各个代理客户端（key）开启对应的端口列表（value） */
-    private volatile Map<String, List<Integer>> clientInetPortMapping = new HashMap<String, List<Integer>>();
+    private volatile Map<String, List<Integer>> clientInetPortMapping = new HashMap<>();
 
     /** 代理服务器上的每个对外端口（key）对应的代理客户端背后的真实服务器信息（value） */
     private volatile Map<Integer, String> inetPortLanInfoMapping = new HashMap<Integer, String>();

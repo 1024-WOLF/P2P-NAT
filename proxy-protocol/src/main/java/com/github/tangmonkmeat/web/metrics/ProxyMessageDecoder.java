@@ -1,6 +1,7 @@
 package com.github.tangmonkmeat.web.metrics;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
@@ -68,6 +69,9 @@ public class ProxyMessageDecoder extends LengthFieldBasedFrameDecoder implements
 
     @Override
     protected ProxyMessage decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
+
+        Channel channel = ctx.channel();
+
         // 由 LengthFieldBasedFrameDecoder 解码，返回的自定义长度的数据帧
         ByteBuf buf = (ByteBuf)super.decode(ctx, in);
 

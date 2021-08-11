@@ -215,7 +215,8 @@ public class RouteConfig {
                 String json = new String(buf);
                 CaptchaVO captchaVO = JsonUtil.json2Object(json, new TypeToken<CaptchaVO>() {
                 });
-                return captchaService.get(captchaVO);
+                ResponseModel model = captchaService.get(captchaVO);
+                return model;
             }
         });
 

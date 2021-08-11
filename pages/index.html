@@ -8,6 +8,13 @@
 <title>登录</title>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" href="/console/layui/css/layui.css"><link rel="stylesheet" type="text/css" href="/captcha/css/verify.css">
+	<script>
+		(function () {
+			if (!window.Promise) {
+				document.writeln('<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.1.1/es6-promise.min.js"><' + '/' + 'script>');
+			}
+		})();
+	</script>
 <style type="text/css">
 * {
 	box-sizing: border-box;
@@ -177,13 +184,13 @@ clear:both;
 				<button id="login-button"></button>
 				<div id="mpanel2" style="margin-top:50px;">
 
-					<script type="text/javascript" src="captcha/js/jquery.min.js" ></script>
+					<script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/jquery/1.9.1/jquery.js" ></script>
 					<script type="text/javascript" src="captcha/js/crypto-js.js"></script>
 					<script type="text/javascript" src="captcha/js/ase.js"></script>
 					<script type="text/javascript" src="captcha/js/verify.js" ></script>
 					<script>
 						$('#mpanel2').slideVerify({
-							baseUrl:'http://localhost:8084',
+							baseUrl:'http://127.0.0.1:8084',
 							mode:'pop',     //展示模式
 							containerId:'login-button',//pop模式 必填 被点击之后出现行为验证码的元素id
 							imgSize : {       //图片的大小对象,有默认值{ width: '310px',height: '155px'},可省略
@@ -204,7 +211,9 @@ clear:both;
 								// params为返回的二次验证参数 需要在接下来的实现逻辑回传服务器
 								login(params.captchaVerification);
 							},
-							error : function() {}        //失败的回调
+							error : function() {
+
+							}        //失败的回调
 						});
 					</script>
 			</div>
@@ -221,9 +230,6 @@ clear:both;
 	<script src="jquery/jquery-3.1.1.min.js" type="text/javascript"></script>
 	<script src="jquery/jquery.i18n.properties.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
-		$('#login-button').click(function(event) {
-		});
-
 		function login(param){
 			if (!$(".username").val() || !$(".password").val()){
 				alert("用户名和密码不能为空");

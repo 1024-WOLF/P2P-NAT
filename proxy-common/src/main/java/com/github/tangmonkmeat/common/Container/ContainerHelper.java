@@ -32,7 +32,7 @@ public class ContainerHelper {
     /**
      * 启动所有容器
      *
-     * @param containers 待启动的容器
+     * @param containers 待启动的容器列表
      */
     public static void start(List<Container> containers){
 
@@ -47,6 +47,7 @@ public class ContainerHelper {
         // 3 应用中发生 OOM 错误，导致 JVM 关闭
         // 4 终端中使用 Ctrl+C(非后台运行)
         // 5 程序发生 RunTimeException 终止了程序
+        // 特别注意：kill -9 并不会触发此钩子函数
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             if (running){
                 synchronized (ContainerHelper.class){
@@ -60,7 +61,7 @@ public class ContainerHelper {
             }
         }));
 
-        // 一直等待，直到容器全部被关闭
+        // Main线程一直等待，直到容器全部被关闭
         synchronized (ContainerHelper.class){
             while (running){
                 try {
@@ -72,6 +73,10 @@ public class ContainerHelper {
         }
     }
 
+    /**
+     * 启动所有容器
+     *
+     */
     private static void startContainers() {
         for (Container container : cachedContainers) {
             logger.info("starting container [{}]", container.getClass().getName());
@@ -80,6 +85,10 @@ public class ContainerHelper {
         }
     }
 
+    /**
+     * 关闭所有容器
+     *
+     */
     private static void stopContainers() {
         for (Container container : cachedContainers) {
             logger.info("stopping container [{}]", container.getClass().getName());
@@ -91,5 +100,4 @@ public class ContainerHelper {
             }
         }
     }
-
 }

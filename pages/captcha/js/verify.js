@@ -53,14 +53,14 @@
 			url : baseUrl + "/captcha/get",
 			data :JSON.stringify(data),
 			cache: false,
-      crossDomain: true == !(document.all),
+      // crossDomain: true == !(document.all),
 			success:function(res){
-				resolve(res)
+				resolve(res);
 			},
 			fail: function(err) {
-				reject(err)
+				reject(err);
 			}
-		})
+		});
 	}
 	//验证图片check事件
 	function checkPictrue(data,baseUrl,resolve,reject){
@@ -75,7 +75,11 @@
 				resolve(res)
 			},
 			fail: function(err) {
-				reject(err)
+				reject(err.responseText)
+			},
+			error: function (err){
+				console.log(err)
+				reject(JSON.parse(err.responseText))
 			}
 		})
 	}
@@ -329,7 +333,7 @@
 				var captchaVerification = this.secretKey ? aesEncrypt(this.backToken+'---'+JSON.stringify({x:this.moveLeftDistance,y:5.0}),this.secretKey):this.backToken+'---'+JSON.stringify({x:this.moveLeftDistance,y:5.0})
 				checkPictrue(data,this.options.baseUrl,function(res){
 					// 请求反正成功的判断
-					if (res.repCode=="0000") {
+					if (res.repCode=="200") {
 						_this.htmlDoms.move_block.css('background-color', '#5cb85c');
 						_this.htmlDoms.left_bar.css({'border-color': '#5cb85c', 'background-color': '#fff'});
 						_this.htmlDoms.icon.css('color', '#fff');
@@ -369,7 +373,27 @@
 						// },1300)
 						_this.options.error(this);
 					}
-				})
+				},function (res){
+					_this.htmlDoms.move_block.css('background-color', '#d9534f');
+					_this.htmlDoms.left_bar.css('border-color', '#d9534f');
+					_this.htmlDoms.icon.css('color', '#fff');
+					_this.htmlDoms.icon.removeClass('icon-right');
+					_this.htmlDoms.icon.addClass('icon-close');
+
+					_this.htmlDoms.tips.addClass('err-bg').removeClass('suc-bg')
+					// _this.htmlDoms.tips.css({"display":"block",animation:"move 1.3s cubic-bezier(0, 0, 0.39, 1.01)"});
+					_this.htmlDoms.tips.animate({"bottom":"0px"});
+					_this.htmlDoms.tips.text(res.repMsg)
+					setTimeout(function () {
+						_this.refresh();
+						_this.htmlDoms.tips.animate({"bottom":"-35px"});
+					}, 1000);
+
+					// setTimeout(function () {
+					// 	// _this.htmlDoms.tips.css({"display":"none",animation:"none"});
+					// },1300)
+					_this.options.error(this);
+				});
 	            this.status = false;
         	}
 		},
@@ -446,7 +470,7 @@
 			this.$element.find('.verify-msg:eq(0)').text(this.options.explain);
 			this.isEnd = false;
 			getPictrue({captchaType:"blockPuzzle", clientUid: localStorage.getItem('slider'), ts: Date.now()},this.options.baseUrl,function (res) {
-				if (res.repCode=="0000") {
+				if (res.repCode==="200") {
 					_this.$element.find(".backImg")[0].src = 'data:image/png;base64,'+res.repData.originalImageBase64
 					_this.$element.find(".bock-backImg")[0].src = 'data:image/png;base64,'+res.repData.jigsawImageBase64
 					_this.secretKey = res.repData.secretKey
@@ -457,7 +481,7 @@
 					_this.htmlDoms.tips.addClass('err-bg').removeClass('suc-bg')
 					_this.htmlDoms.tips.animate({"bottom":"0px"});
 					_this.htmlDoms.tips.text(res.repMsg)
-					setTimeout(function () { 
+					setTimeout(function () {
 							_this.htmlDoms.tips.animate({"bottom":"-35px"});
 						}, 1000);
 					}
@@ -542,7 +566,7 @@
 						}
 						var captchaVerification = _this.secretKey ? aesEncrypt(_this.backToken+'---'+JSON.stringify(_this.checkPosArr),_this.secretKey):_this.backToken+'---'+JSON.stringify(_this.checkPosArr)
 						checkPictrue(data, _this.options.baseUrl,function(res){
-							if (res.repCode=="0000") {
+							if (res.repCode=="200") {
 								_this.$element.find('.verify-bar-area').css({'color': '#4cae4c', 'border-color': '#5cb85c'});
 								_this.$element.find('.verify-msg').text('验证成功');
 								// _this.$element.find('.verify-refresh').hide();
@@ -666,7 +690,7 @@
         	this.checkPosArr = [];
         	this.num = 1;
 			getPictrue({captchaType:"clickWord", clientUid: localStorage.getItem('point'), ts: Date.now()},_this.options.baseUrl,function(res){
-				if (res.repCode=="0000") {
+				if (res.repCode=="200") {
 					_this.htmlDoms.back_img[0].src ='data:image/png;base64,'+ res.repData.originalImageBase64;
 					_this.backToken = res.repData.token;
 					_this.secretKey = res.repData.secretKey;

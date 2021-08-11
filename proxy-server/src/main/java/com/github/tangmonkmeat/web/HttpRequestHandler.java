@@ -72,6 +72,9 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
                     "Application/json;charset=utf-8");
         }else if (responseInfo instanceof ResponseModel){
             ResponseModel responseModel = (ResponseModel) responseInfo;
+            if ("0000".equals(responseModel.getRepCode())){
+                responseModel.setRepCode("200");
+            }
             // 错误码规则：除100取整为http状态码
             outputContent(ctx, request, Integer.parseInt(responseModel.getRepCode()), JsonUtil.object2Json(responseInfo),
                     "Application/json;charset=utf-8");

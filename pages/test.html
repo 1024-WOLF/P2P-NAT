@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript" src="captcha/js/jquery.min.js" ></script>
+<script type="text/javascript">
+
+    function resolve(res){
+        console.log(res);
+    }
+    function reject(res){
+        console.log(res);
+    }
+    test();
+    getPictrue(resolve,reject);
+
+    function test(){
+        console.log("test");
+    }
+
+
+    //请求图片get事件
+    function getPictrue(resolve,reject){
+        $.ajax({
+            type: "POST",
+            contentType: "application/json;charset=UTF-8",
+            url: "/captcha/get",
+            data: JSON.stringify({}),
+            // cache: false,
+            // crossDomain: true == !(document.all),
+            success:function(res){
+                console.log(res);
+                resolve(res);
+            },
+            fail: function(err) {
+                console.log(res);
+                reject(err);
+            },
+            error: function (res){
+                console.log(res);
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>
