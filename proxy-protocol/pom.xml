@@ -7,10 +7,10 @@
     <parent>
         <artifactId>p2p-nat</artifactId>
         <groupId>com.github.tangmonkmeat</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <artifactId>proxy-protocol</artifactId>
 
     <name>proxy-protocol</name>
