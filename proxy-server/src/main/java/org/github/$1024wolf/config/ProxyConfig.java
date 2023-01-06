@@ -36,7 +36,7 @@ public class ProxyConfig implements Serializable {
                 file.mkdir();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("init config.json failed.",e);
         }
         //CONFIG_FILE = configDir + "config.json";
     }

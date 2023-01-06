@@ -27,7 +27,7 @@ if [ ! -d ${LOG_DIR} ]; then
 fi
 
 # 主类的全类名
-MAIN_CLASS=com.github.tangmonkmeat.ProxyServerBootstrap
+MAIN_CLASS=org.github.$1024wolf.ProxyServerBootstrap
 
 # 通过-cp、扩展CLASSPATH、指定主类的方式启动项目, 
 # 并通过“-D”的方式向此程序的运行时环境中设置当前项目的路径,
