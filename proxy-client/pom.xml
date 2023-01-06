@@ -64,7 +64,7 @@
 <!--                        <manifest>-->
 <!--                            <addClasspath>true</addClasspath>-->
 <!--                            <classpathPrefix>lib/</classpathPrefix>-->
-<!--                            <mainClass>com.github.tangmonkmeat.ProxyClientBootstrap</mainClass>-->
+<!--                            <mainClass>ProxyClientBootstrap</mainClass>-->
 <!--                        </manifest>-->
 <!--                    </archive>-->
                     <excludes>

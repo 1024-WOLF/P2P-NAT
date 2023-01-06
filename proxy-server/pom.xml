@@ -52,7 +52,7 @@
 <!--            <manifest>-->
 <!--              <addClasspath>true</addClasspath>-->
 <!--              <classpathPrefix></classpathPrefix>-->
-<!--              <mainClass>com.github.tangmonkmeat.ProxyServerBootstrap</mainClass>-->
+<!--              <mainClass>ProxyServerBootstrap</mainClass>-->
 <!--            </manifest>-->
 <!--            <manifestEntries>-->
 <!--              &lt;!&ndash; 在Class-Path下添加配置文件的路径 &ndash;&gt;-->
