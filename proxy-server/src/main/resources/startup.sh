@@ -8,6 +8,8 @@ LIB_DIR=${BASE_DIR}/lib
 LOG_DIR=${BASE_DIR}/logs
 # 标准输出
 STDOUT_FILE=${LOG_DIR}/stdout.log
+# jvm配置文件
+VM_FILE=${BASE_DIR}/conf/vmoptions.txt
 
 # lib 目录下的所有jar包
 # grep 过滤 jar包
@@ -20,6 +22,12 @@ LIB_JARS=`ls $LIB_DIR|grep .jar|awk '{print "'$LIB_DIR'/"$0}'| xargs | sed "s/ /
 
 # 静态资源目录
 STATIC_DIR=${BASE_DIR}/pages
+
+JAVA_OPTS=""
+# vm 参数
+if [ -e ${VM_FILE} ]; then
+    JAVA_OPTS=awk '{printf $1" "}' ${VM_FILE}
+fi
 
 # 如果日志目录不存在，创建
 if [ ! -d ${LOG_DIR} ]; then
@@ -37,7 +45,7 @@ MAIN_CLASS=org.github.$1024wolf.ProxyServerBootstrap
 # 指定运行的环境变量和 classpath
 # 标准输出重定向到文件，错误重定向到标准输出
 echo -e "starting the proxy server ...\n\c"
-nohup java -Dbase.dir=${BASE_DIR} -classpath ${CONF_DIR}:${LIB_JARS} ${MAIN_CLASS} >${STDOUT_FILE} 2>&1 &
+nohup java -Dbase.dir=${BASE_DIR} ${JAVA_OPTS} -classpath ${CONF_DIR}:${LIB_JARS} ${MAIN_CLASS} >${STDOUT_FILE} 2>&1 &
 sleep 1
 # 打印进程ID
 PID=$(ps -ef | grep java | grep ${MAIN_CLASS} | awk '{print $2}')
