@@ -108,6 +108,8 @@
                   <includes>
                     <include>*.properties</include>
                     <include>*.json</include>
+                    <include>*.txt</include>
+                    <include>*.xml</include>
                   </includes>
                 </resource>
               </resources>

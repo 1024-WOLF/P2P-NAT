@@ -30,3 +30,5 @@ for cmdChannel : cmdChannelSet
 
 4. 代理信息采用 sqlite 数据库管理
 
+5. 采用 logback 打印日志 【完成】
+

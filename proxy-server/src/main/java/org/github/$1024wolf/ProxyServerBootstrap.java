@@ -5,6 +5,7 @@ import org.github.$1024wolf.core.ProxyServerContainer;
 import org.github.$1024wolf.web.WebConfigContainer;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Description:
@@ -16,7 +17,8 @@ import java.util.Arrays;
 public class ProxyServerBootstrap {
 
     public static void main(String[] args) {
-        ContainerHelper.start(Arrays.asList(new ProxyServerContainer(), new WebConfigContainer()));
+        ContainerHelper.start(Collections.singletonList(new ProxyServerContainer()));
+        //ContainerHelper.start(Arrays.asList(new ProxyServerContainer(), new WebConfigContainer()));
         //System.out.println(ProxyServerBootstrap .class.getResource("/pages").toURI().getPath());
         //System.out.println(Runtime.getRuntime().availableProcessors());
     }
